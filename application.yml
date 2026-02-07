@@ -1,0 +1,15 @@
+# Arquivo: application.yml (dentro de ecoshop-config-repo)
+server:
+  port: 8080 # Porta padrão se ninguém definir outra
+
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0 # Em dev: envia 100% dos traces. Em prod: baixar para 0.1
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans

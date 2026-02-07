@@ -1,0 +1,12 @@
+# Arquivo: discovery-server.yml
+server:
+  port: 8761
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false # Ele é o servidor, não se registra em si mesmo
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
