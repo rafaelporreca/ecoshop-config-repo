@@ -22,3 +22,9 @@ spring:
             - Path=/api/users/** # Tudo o que começar com /api/users vai para o USER-SERVICE
           filters:
             - AuthenticationFilter # Aplica o nosso filtro de segurança aqui!
+        - id: order-service
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/api/orders/**
+          filters:
+            - AuthenticationFilter
