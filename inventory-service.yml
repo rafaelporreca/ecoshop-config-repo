@@ -1,0 +1,33 @@
+server:
+  port: 0
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/inventory_db
+    username: admin
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  # --- CONFIGURAÇÃO DO KAFKA CONSUMER ---
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: inventory-group  # Nome do grupo de consumidores
+      auto-offset-reset: earliest # Se o serviço cair, ele lê as mensagens antigas quando voltar
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*" # Aceita JSON de qualquer pacote
+        # Avisa o Spring para qual classe ele deve converter o JSON recebido
+        spring.json.value.default.type: com.ecoshop.inventoryservice.event.OrderCreatedEvent
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    instance-id: ${spring.application.name}:${random.value}
