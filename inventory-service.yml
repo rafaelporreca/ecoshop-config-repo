@@ -15,6 +15,11 @@ spring:
   # --- CONFIGURAÇÃO DO KAFKA CONSUMER ---
   kafka:
     bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
     consumer:
       group-id: inventory-group  # Nome do grupo de consumidores
       auto-offset-reset: earliest # Se o serviço cair, ele lê as mensagens antigas quando voltar
