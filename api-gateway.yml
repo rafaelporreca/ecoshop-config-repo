@@ -27,7 +27,7 @@ spring:
           predicates:
             - Path=/api/orders/**
           filters:
-            - AuthenticationFilter
+            - name: AuthenticationFilter
             - name: CircuitBreaker
               args:
                 name: orderCircuitBreaker
