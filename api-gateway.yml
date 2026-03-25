@@ -13,6 +13,10 @@ application:
       secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
 
 spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379
   cloud:
     gateway:
       routes:
@@ -32,6 +36,11 @@ spring:
               args:
                 name: orderCircuitBreaker
                 fallbackUri: forward:/fallback/order
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 1 # Quantas requisições por segundo são permitidas
+                redis-rate-limiter.burstCapacity: 2 # "Gordura" máxima permitida em um pico
+                key-resolver: "#{@userKeyResolver}"
         - id: inventory-service
           uri: lb://INVENTORY-SERVICE
           predicates:
